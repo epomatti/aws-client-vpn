@@ -12,7 +12,8 @@ provider "aws" {
 }
 
 locals {
-  workload = "fastplanes"
+  workload              = "fastplanes"
+  vpn_client_cidr_block = "10.80.0.0/22"
 }
 
 module "vpc" {
@@ -30,14 +31,15 @@ module "ec2-instance" {
 }
 
 module "rds_mysql" {
-  source         = "./modules/mysql"
-  workload       = local.workload
-  vpc_id         = module.vpc.vpc_id
-  subnets        = module.vpc.private_subnets
-  multi_az       = var.rds_multi_az
-  instance_class = var.rds_instance_class
-  username       = var.rds_username
-  password       = var.rds_password
+  source                = "./modules/mysql"
+  workload              = local.workload
+  vpc_id                = module.vpc.vpc_id
+  subnets               = module.vpc.private_subnets
+  multi_az              = var.rds_multi_az
+  instance_class        = var.rds_instance_class
+  username              = var.rds_username
+  password              = var.rds_password
+  vpn_client_cidr_block = local.vpn_client_cidr_block
 }
 
 module "acm" {
@@ -50,10 +52,11 @@ module "cloudwatch" {
 }
 
 module "vpn_endpoint" {
-  source         = "./modules/vpn"
-  workload       = local.workload
-  vpc_id         = module.vpc.vpc_id
-  subnets        = module.vpc.private_subnets
-  acm_cert_arn   = module.acm.server_cer_arn
-  log_group_name = module.cloudwatch.log_group_name
+  source           = "./modules/vpn"
+  workload         = local.workload
+  lient_cidr_block = local.vpn_client_cidr_block
+  vpc_id           = module.vpc.vpc_id
+  subnets          = module.vpc.private_subnets
+  acm_cert_arn     = module.acm.server_cer_arn
+  log_group_name   = module.cloudwatch.log_group_name
 }

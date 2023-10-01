@@ -26,3 +26,7 @@ variable "password" {
   type      = string
   sensitive = true
 }
+
+variable "vpn_client_cidr_block" {
+  type = string
+}

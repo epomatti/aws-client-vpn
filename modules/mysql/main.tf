@@ -57,6 +57,15 @@ resource "aws_security_group_rule" "mysql_ingress" {
   to_port           = 3306
   protocol          = "tcp"
   cidr_blocks       = [data.aws_vpc.selected.cidr_block]
-  ipv6_cidr_blocks  = []
+  security_group_id = aws_security_group.mysql.id
+}
+
+resource "aws_security_group_rule" "vpn_ingress" {
+  description       = "Allows VPN client connectivity"
+  type              = "ingress"
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  cidr_blocks       = [var.vpn_client_cidr_block]
   security_group_id = aws_security_group.mysql.id
 }
