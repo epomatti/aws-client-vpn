@@ -1,8 +1,8 @@
-# aws-client-vpn
+# AWS Client VPN
 
 Add the DNS entry to verify the VPN server certificate.
 
-This architecture will implement **mutual authentication** following this [example][2].
+This repository uses **mutual authentication** architecture following AWS [guidelines][2].
 
 ### Generate the certificates
 
@@ -11,6 +11,8 @@ To start, clone the [easy-rsa][1] repository:
 ```sh
 git clone https://github.com/OpenVPN/easy-rsa.git
 ```
+
+Now trigger the PKI creation process:
 
 ```sh
 bash scripts/generateCerts.sh
@@ -26,6 +28,14 @@ The artifacts will be generated in the `./certs` directory.
 
 ### Provision the infrastructure
 
+The generated certificates location is already referenced by the configuration.
+
+Simply provision the infrastructure:
+
+```sh
+terraform init
+terraform apply -auto-approve
+```
 
 
 

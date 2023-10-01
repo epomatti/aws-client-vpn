@@ -51,6 +51,9 @@ module "cloudwatch" {
 
 module "vpn_endpoint" {
   source         = "./modules/vpn"
+  workload       = local.workload
+  vpc_id         = module.vpc.vpc_id
+  subnets        = module.vpc.private_subnets
   acm_cert_arn   = module.acm.server_cer_arn
   log_group_name = module.cloudwatch.log_group_name
 }
