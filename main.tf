@@ -39,3 +39,8 @@ module "rds_mysql" {
   username       = var.rds_username
   password       = var.rds_password
 }
+
+# module "acm" {
+#   source                  = "./modules/acm"
+#   server_cert_domain_name = var.acm_server_cert_domain_name
+# }
