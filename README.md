@@ -4,6 +4,8 @@ Add the DNS entry to verify the VPN server certificate.
 
 This repository uses **mutual authentication** architecture following AWS [guidelines][2].
 
+<img src=".assets/vpn.png" />
+
 ### Generate the certificates
 
 To start, clone the [easy-rsa][1] repository:
@@ -37,9 +39,28 @@ terraform init
 terraform apply -auto-approve
 ```
 
-Once the VPN is provisioned, download the client config, edi the OpenVPN connection, and and connect to AWS following [this guideline][3].
+Once the VPN is provisioned, download the client config, edit the OpenVPN connection, and and connect to AWS following [this guideline][3].
 
-Since there is no DNS, get the RDS private IPs from the EC2 console.
+```
+Client certificate — easy-rsa/easyrsa3/pki/issued/client1.domain.tld.crt
+Client key — easy-rsa/easyrsa3/pki/private/client1.domain.tld.key
+
+<cert>
+Contents of client certificate (.crt) file
+</cert>
+
+<key>
+Contents of private key (.key) file
+</key>
+
+Locate the line that specifies the Client VPN endpoint DNS name, and prepend a random string to it so that the format is random_string.displayed_DNS_name. For example:
+
+Original DNS name: cvpn-endpoint-0102bc4c2eEXAMPLE.prod.clientvpn.us-west-2.amazonaws.com
+Modified DNS name: asdfa.cvpn-endpoint-0102bc4c2eEXAMPLE.prod.clientvpn.us-west-2.amazonaws.com
+```
+
+DNS should work properly as it is replicated by AWS.
+
 
 [1]: https://github.com/OpenVPN/easy-rsa.git
 [2]: https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/mutual.html
