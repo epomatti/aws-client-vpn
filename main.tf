@@ -40,7 +40,17 @@ module "rds_mysql" {
   password       = var.rds_password
 }
 
-# module "acm" {
-#   source                  = "./modules/acm"
-#   server_cert_domain_name = var.acm_server_cert_domain_name
-# }
+module "acm" {
+  source = "./modules/acm"
+}
+
+module "cloudwatch" {
+  source   = "./modules/cloudwatch"
+  workload = local.workload
+}
+
+module "vpn_endpoint" {
+  source         = "./modules/vpn"
+  acm_cert_arn   = module.acm.server_cer_arn
+  log_group_name = module.cloudwatch.log_group_name
+}

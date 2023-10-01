@@ -1,16 +1,16 @@
 resource "aws_ec2_client_vpn_endpoint" "example" {
-  description            = "terraform-clientvpn-example"
-  server_certificate_arn = aws_acm_certificate.cert.arn
-  client_cidr_block      = "10.0.50.0/16"
+  description            = "Terraform VPN Endpoint"
+  server_certificate_arn = var.acm_cert_arn
+  client_cidr_block      = "10.80.0.0/22"
 
   authentication_options {
     type                       = "certificate-authentication"
-    root_certificate_chain_arn = aws_acm_certificate.root_cert.arn
+    root_certificate_chain_arn = var.acm_cert_arn
   }
 
-  # connection_log_options {
-  #   enabled              = true
-  #   cloudwatch_log_group = var.log_group_arn
-  #   # cloudwatch_log_stream = aws_cloudwatch_log_stream.ls.name
-  # }
+  connection_log_options {
+    enabled              = true
+    cloudwatch_log_group = var.log_group_name
+    # cloudwatch_log_stream = aws_cloudwatch_log_stream.ls.name
+  }
 }

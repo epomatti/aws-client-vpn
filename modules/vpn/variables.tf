@@ -1,7 +1,7 @@
-variable "log_group_arn" {
+variable "acm_cert_arn" {
   type = string
 }
 
-variable "acm_cert_arn" {
+variable "log_group_name" {
   type = string
 }
