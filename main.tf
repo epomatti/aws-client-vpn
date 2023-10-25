@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.19.0"
+      version = "5.22.0"
     }
   }
 }
@@ -52,6 +52,7 @@ module "cloudwatch" {
 }
 
 module "vpn_endpoint" {
+  count            = var.vpn_endpoint_enabled == true ? 1 : 0
   source           = "./modules/vpn"
   workload         = local.workload
   lient_cidr_block = local.vpn_client_cidr_block
@@ -59,4 +60,12 @@ module "vpn_endpoint" {
   subnets          = module.vpc.private_subnets
   acm_cert_arn     = module.acm.server_cer_arn
   log_group_name   = module.cloudwatch.log_group_name
+}
+
+module "openvpn" {
+  source        = "./modules/openvpn"
+  workload      = local.workload
+  vpc_id        = module.vpc.vpc_id
+  subnet        = module.vpc.public_subnets[0]
+  instance_type = var.openvpn_instance_type
 }

@@ -61,7 +61,18 @@ Modified DNS name: asdfa.cvpn-endpoint-0102bc4c2eEXAMPLE.prod.clientvpn.us-west-
 
 DNS should work properly as it is replicated by AWS.
 
+## OpenVPN Access Server
+
+Using the Console, subscribe to the [OpenVPN][4] product. There should be no costs associated with it.
+
+For more information, follow the [instructions][5] of the product.
+
+> 🚧 Under construction
+
+
 
 [1]: https://github.com/OpenVPN/easy-rsa.git
 [2]: https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/mutual.html
 [3]: https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/cvpn-getting-started.html#cvpn-getting-started-config
+[4]: https://aws.amazon.com/marketplace/pp/prodview-y3m73u6jd5srk
+[5]: https://openvpn.net/vpn-server-resources/amazon-web-services-ec2-byol-appliance-quick-start-guide/
